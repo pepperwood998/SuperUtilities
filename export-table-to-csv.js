@@ -9,11 +9,11 @@ function exportData() {
   for (var i = 0, row; row = table.rows[i]; i++) {
     //rows would be accessed using the "row" variable assigned in the for loop
     //Get each cell value/column from the row
-    column1 = row.cells[0].innerText;
-    column2 = row.cells[1].innerText;
-    column3 = row.cells[2].innerText;
-    column4 = row.cells[3].innerText;
-    column5 = row.cells[4].innerText;
+    column1 = sanitize(row.cells[0].innerText);
+    column2 = sanitize(row.cells[1].innerText);
+    column3 = sanitize(row.cells[2].innerText);
+    column4 = sanitize(row.cells[3].innerText);
+    column5 = sanitize(row.cells[4].innerText);
 
     /* add a new records in the array */
     rows.push(
@@ -42,4 +42,17 @@ function exportData() {
   document.body.appendChild(link);
   /* download the data file named "Stock_Price_Report.csv" */
   link.click();
+}
+
+function sanitize(str) {
+  return convertCommaNumberToNumber(str);
+}
+
+function convertCommaNumberToNumber(str) {
+  var pattern = /^[0-9,]*$/g;
+  if (pattern.test(str)) {
+    return str.split(',').join('');
+  }
+
+  return str;
 }
